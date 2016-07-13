@@ -1,0 +1,296 @@
+﻿{
+  "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
+  "contentVersion": "1.0.0.0",
+
+  "parameters": {
+    "appName": {
+      "type": "string",
+      "metadata": {
+        "description": "A name that will be used to make your resources globally unique. Choose something like your last name but not more than 10 characters in length."
+      }
+    },
+
+    // HDInsight parms
+    "clusterLoginUserName": {
+      "type": "string"
+    },
+    "clusterLoginPassword": {
+      "type": "securestring"
+    },
+
+    // Lab VM parms
+    "labVmUsername": {
+      "type": "string",
+      "metadata": {
+        "description": "Username for the Lab VM."
+      }
+    },
+    "labVmPassword": {
+      "type": "securestring",
+      "metadata": {
+        "description": "Password for the Lab VM."
+      }
+    }
+  },
+
+  "variables": {
+    "clusterName": "[concat(parameters('appName'), 'spark')]",
+    "clusterStorageAccountName": "[concat(parameters('appName'), 'sparkstorage')]",
+    "vmStorageAccountName": "[concat(parameters('appName'), 'vmstorage')]",
+    "virtualNetworkName": "[concat(parameters('appName'), 'labnetwork')]",
+    "subnetName": "[concat(parameters('appName'), 'subnet')]",
+    "nicName": "[concat(parameters('appName'), 'nic')]",
+    "publicIPAddressName": "[concat(parameters('appName'), 'publicip')]",
+    "labVmName": "[concat(parameters('appName'), 'lab')]",
+
+    "OSDiskName": "labvmosdisk",
+    "vmOsVersion": "2012-R2-Datacenter",
+    "vmSize": "Standard_DS1_v2",
+    "addressPrefix": "10.0.0.0/16",
+    "subnetPrefix": "10.0.0.0/24",
+    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+    "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+    "publicIPAddressType": "Dynamic",
+    "imagePublisher": "MicrosoftWindowsServer",
+    "imageOffer": "WindowsServer",
+    "clusterNodeSize": "Standard_D12_v2",
+    "clusterWorkerNodeCount": 2,
+    "mydcsConfigurationFunction": "mydcsConfiguration.ps1\\Main",
+    "dscModuleUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/master/dsc.zip",
+
+    "clusterApiVersion": "2015-03-01-preview",
+    "storageApiVersion": "2016-01-01",
+    "networkingApiVersion": "2015-06-15",
+    "vmApiVersion": "2015-06-15"
+  },
+
+  "resources": [
+
+    // storage
+    {
+      "name": "[variables('clusterStorageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "location": "[resourceGroup().location]"
+    },
+    {
+      "name": "[variables('vmStorageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "location": "[resourceGroup().location]"
+    },
+
+    // networking
+    {
+      "apiVersion": "[variables('networkingApiVersion')]",
+      "type": "Microsoft.Network/publicIPAddresses",
+      "name": "[variables('publicIPAddressName')]",
+      "location": "[resourceGroup().location]",
+      "properties": {
+        "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
+        "dnsSettings": {
+          "domainNameLabel": "[variables('labVmName')]"
+        }
+      }
+    },
+    {
+      "name": "[variables('virtualNetworkName')]",
+      "type": "Microsoft.Network/virtualNetworks",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('networkingApiVersion')]",
+      "properties": {
+        "addressSpace": {
+          "addressPrefixes": [
+            "[variables('addressPrefix')]"
+          ]
+        },
+        "subnets": [
+          {
+            "name": "[variables('subnetName')]",
+            "properties": {
+              "addressPrefix": "[variables('subnetPrefix')]"
+            }
+          }
+        ]
+      }
+    },
+    {
+      "name": "[variables('nicName')]",
+      "type": "Microsoft.Network/networkInterfaces",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('networkingApiVersion')]",
+      "dependsOn": [
+        "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+        "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      ],
+      "properties": {
+        "ipConfigurations": [
+          {
+            "name": "ipconfig1",
+            "properties": {
+              "privateIPAllocationMethod": "Dynamic",
+              "publicIPAddress": {
+                "id": "[resourceId('Microsoft.Network/publicIPAddresses', variables('publicIPAddressName'))]"
+              },
+              "subnet": {
+                "id": "[variables('subnetRef')]"
+              }
+            }
+          }
+        ]
+      }
+    },
+
+    // Lab VM
+    {
+      "name": "[variables('labVmName')]",
+      "type": "Microsoft.Compute/virtualMachines",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('vmApiVersion')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('vmStorageAccountName'))]",
+        "[concat('Microsoft.Network/networkInterfaces/', variables('nicName'))]"
+      ],
+      "properties": {
+        "hardwareProfile": {
+          "vmSize": "[variables('vmSize')]"
+        },
+        "osProfile": {
+          "computerName": "[variables('labVmName')]",
+          "adminUsername": "[parameters('labVmUsername')]",
+          "adminPassword": "[parameters('labVmPassword')]"
+        },
+        "storageProfile": {
+          "imageReference": {
+            "publisher": "[variables('imagePublisher')]",
+            "offer": "[variables('imageOffer')]",
+            "sku": "[variables('vmOsVersion')]",
+            "version": "latest"
+          },
+          "osDisk": {
+            "name": "osdisk",
+            "vhd": {
+              "uri": "[concat('http://', variables('vmStorageAccountName'), '.blob.core.windows.net/vmstorage/', variables('OSDiskName'), '.vhd')]"
+            },
+            "caching": "ReadWrite",
+            "createOption": "FromImage"
+          }
+        },
+        "networkProfile": {
+          "networkInterfaces": [
+            {
+              "id": "[resourceId('Microsoft.Network/networkInterfaces', variables('nicName'))]"
+            }
+          ]
+        }
+      },
+      "resources": [
+        {
+          "name": "mydcs",
+          "type": "extensions",
+          "location": "[resourceGroup().location]",
+          "apiVersion": "[variables('vmApiVersion')]",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('labVmName'))]"
+          ],
+          "tags": {
+            "displayName": "mydcs"
+          },
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.9",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "modulesUrl": "[variables('dscModuleUrl')]",
+              "sasToken": "",
+              "configurationFunction": "[variables('mydcsConfigurationFunction')]",
+              "properties": {
+                "nodeName": "[variables('labVmName')]"
+              }
+            },
+            "protectedSettings": { }
+          }
+        }
+      ]
+    },
+
+    // HDInsight
+    {
+      "name": "[variables('clusterName')]",
+      "type": "Microsoft.HDInsight/clusters",
+      "location": "[resourceGroup().location]",
+      "apiVersion": "[variables('clusterApiVersion')]",
+      "dependsOn": [
+        "[concat('Microsoft.Storage/storageAccounts/', variables('clusterStorageAccountName'))]"
+      ],
+      "properties": {
+        "clusterVersion": "3.4",
+        "osType": "Linux",
+        "clusterDefinition": {
+          "kind": "spark",
+          "configurations": {
+            "gateway": {
+              "restAuthCredential.isEnabled": true,
+              "restAuthCredential.username": "[parameters('clusterLoginUserName')]",
+              "restAuthCredential.password": "[parameters('clusterLoginPassword')]"
+            }
+          }
+        },
+        "storageProfile": {
+          "storageaccounts": [
+            {
+              "name": "[replace(replace(concat(reference(concat('Microsoft.Storage/storageAccounts/', variables('clusterStorageAccountName')), variables('storageApiVersion')).primaryEndpoints.blob),'https:',''),'/','')]",
+              "isDefault": true,
+              "container": "sparkcontainer",
+              "key": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('clusterStorageAccountName')), variables('storageApiVersion')).keys[0].value]"
+            }
+          ]
+        },
+        "computeProfile": {
+          "roles": [
+            {
+              "name": "headnode",
+              "targetInstanceCount": "2",
+              "hardwareProfile": {
+                "vmSize": "[variables('clusterNodeSize')]"
+              },
+              "osProfile": {
+                "linuxOperatingSystemProfile": {
+                  "username": "[parameters('clusterLoginUserName')]",
+                  "password": "[parameters('clusterLoginPassword')]"
+                }
+              }
+            },
+            {
+              "name": "workernode",
+              "targetInstanceCount": "[variables('clusterWorkerNodeCount')]",
+              "hardwareProfile": {
+                "vmSize": "[variables('clusterNodeSize')]"
+              },
+              "osProfile": {
+                "linuxOperatingSystemProfile": {
+                  "username": "[parameters('clusterLoginUserName')]",
+                  "password": "[parameters('clusterLoginPassword')]"
+                }
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+
+  "outputs": {
+  }
+}
