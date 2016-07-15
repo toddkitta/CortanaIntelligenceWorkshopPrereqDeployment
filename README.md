@@ -14,4 +14,4 @@ When you click the "Deploy to Azure" button, you will be taken to the Azure port
 * CLUSTERLOGINUSERNAME - The username that will be created for the Spark cluster.
 * CLUSTERLOGINPASSWORD - The associated password with the Spark username. The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter.
 * LABVMUSERNAME - The username that will be created for the Lab VM.
-* LABVMPASSWORD - The associated password with the Lab VM user. The password must have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character.
+* LABVMPASSWORD - The associated password with the Lab VM user. The password must be at least 12 characters and must have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character.
