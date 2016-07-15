@@ -5,6 +5,8 @@
   "parameters": {
     "appName": {
       "type": "string",
+      "minLength": 3,
+      "maxLength": 10,
       "metadata": {
         "description": "This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in smithcis, your Spark cluster will be called smithcisspark and your Lab VM will be called smithcislab."
       }
@@ -19,6 +21,7 @@
     },
     "clusterLoginPassword": {
       "type": "securestring",
+      "minLength": 10,
       "metadata": {
         "description": "The associated password with the Spark username. The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
       }
@@ -33,8 +36,9 @@
     },
     "labVmPassword": {
       "type": "securestring",
+      "minLength": 12,
       "metadata": {
-        "description": "The associated password with the Lab VM user. The password must have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character."
+        "description": "The associated password with the Lab VM user. The password must be at least 12 characters and must have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character."
       }
     }
   },
