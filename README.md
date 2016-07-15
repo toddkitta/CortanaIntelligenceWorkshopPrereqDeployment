@@ -8,7 +8,7 @@ All you need to do is click the "Deploy to Azure" button below and fill out the 
 
 When you click the "Deploy to Azure" button, you will be taken to the Azure portal and presented with a form for a new custom deployment (which uses the ARM template in this GitHub repo). You will be presented with a blade to provide some custom parameters as shown in the screenshot below.
 
-![alt text](/images/prereqparms.png "Azure Deployment GUI")
+![alt text](/images/prereqparms.PNG "Azure Deployment GUI")
 
 * APPNAME - This should be a short, but unique string that will be a prefix to all of the resources deployed. For example, if you type in *smithcis*, your Spark cluster will be called *smithcisspark*.
 * CLUSTERLOGINUSERNAME - The username that will be created for the Spark cluster.
