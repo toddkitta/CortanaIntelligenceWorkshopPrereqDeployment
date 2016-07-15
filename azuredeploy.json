@@ -6,29 +6,35 @@
     "appName": {
       "type": "string",
       "metadata": {
-        "description": "A name that will be used to make your resources globally unique. Choose something like your last name but not more than 10 characters in length."
+        "description": "This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in smithcis, your Spark cluster will be called smithcisspark and your Lab VM will be called smithcislab."
       }
     },
 
     // HDInsight parms
     "clusterLoginUserName": {
-      "type": "string"
+      "type": "string",
+      "metadata": {
+        "description": "The username that will be created for the Spark cluster."
+      }
     },
     "clusterLoginPassword": {
-      "type": "securestring"
+      "type": "securestring",
+      "metadata": {
+        "description": "The associated password with the Spark username. The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
+      }
     },
 
     // Lab VM parms
     "labVmUsername": {
       "type": "string",
       "metadata": {
-        "description": "Username for the Lab VM."
+        "description": "The username that will be created for the Lab VM."
       }
     },
     "labVmPassword": {
       "type": "securestring",
       "metadata": {
-        "description": "Password for the Lab VM."
+        "description": "The associated password with the Lab VM user. The password must have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character."
       }
     }
   },
