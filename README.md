@@ -2,6 +2,12 @@
 
 This GitHub repo exists to deploy the assets needed to complete the Cortana Intelligence Workshop. We are leveraging a capability of Azure called ARM templates which allow you to specifiy what your solution looks like from a deployment perspetive simply by using JSON code. This is a fairly simple use of ARM templates, but you can actually deploy very complex topologies using this technology - straight from source control. Pretty cool!!
 
+This particular ARM template will deploy the following resources into a new Resource Group:
+
+* An HDInsight Spark cluster with 2 worker nodes.
+* A Windows 2012 R2 VM that will act as a Lab VM where you will run the Data Factory Data Management Gateway. This VM is basically a workstation for you so you do not have to install software on your personal/work device.
+* Supporting resources - both the Spark cluster and the Lab VM need a few requisite resources in order to operate such as storage accounts, networks, a public IP, etc.
+
 All you need to do is click the "Deploy to Azure" button below and fill out the following parameters in Azure. NOTE: you will want to be signed in to your Azure subscription before clicking the button below.
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftoddkitta%2FCortanaIntelligenceWorkshopPrereqDeployment%2Fmaster%2Fazuredeploy.json)
