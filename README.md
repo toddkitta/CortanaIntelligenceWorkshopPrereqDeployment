@@ -5,3 +5,13 @@ This GitHub repo exists to deploy the assets needed to complete the Cortana Inte
 All you need to do is click the "Deploy to Azure" button below and fill out the following parameters in Azure. NOTE: you will want to be signed in to your Azure subscription before clicking the button below.
 
 [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftoddkitta%2FCortanaIntelligenceWorkshopPrereqDeployment%2Fmaster%2Fazuredeploy.json)
+
+When you click the "Deploy to Azure" button, you will be taken to the Azure portal and presented with a form for a new custom deployment (which uses the ARM template in this GitHub repo). You will be presented with a blade to provide some custom parameters as shown in the screenshot below.
+
+![alt text](/images/prereqparms.png "Azure Deployment GUI")
+
+* APPNAME - This should be a short, but unique string that will be a prefix to all of the resources deployed. For example, if you type in *smithcis*, your Spark cluster will be called *smithcisspark*.
+* CLUSTERLOGINUSERNAME - The username that will be created for the Spark cluster.
+* CLUSTERLOGINPASSWORD - The associated password with the Spark username.
+* LABVMUSERNAME - The username that will be created for the Lab VM.
+* LABVMPASSWORD - The associated password with the Lab VM user.
