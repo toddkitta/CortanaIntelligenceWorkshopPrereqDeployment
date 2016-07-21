@@ -47,11 +47,15 @@
     "clusterName": "[concat(parameters('appName'), 'spark')]",
     "clusterStorageAccountName": "[concat(parameters('appName'), 'sparkstorage')]",
     "vmStorageAccountName": "[concat(parameters('appName'), 'vmstorage')]",
+    "mlStorageAccountName": "[concat(parameters('appName'), 'mlstorage')]",
     "virtualNetworkName": "[concat(parameters('appName'), 'labnetwork')]",
     "subnetName": "[concat(parameters('appName'), 'subnet')]",
     "nicName": "[concat(parameters('appName'), 'nic')]",
     "publicIPAddressName": "[concat(parameters('appName'), 'publicip')]",
     "labVmName": "[concat(parameters('appName'), 'lab')]",
+    "mlWorkspaceName": "[concat(variables('namePrefix'), 'ml')]",
+    "mlResourceId": "[resourceId('Microsoft.MachineLearning/workspaces', variables('mlWorkspaceName'))]",
+    "mlStorageResourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('mlStorageAccountName'))]",
 
     "OSDiskName": "labvmosdisk",
     "vmOsVersion": "2012-R2-Datacenter",
@@ -71,7 +75,8 @@
     "clusterApiVersion": "2015-03-01-preview",
     "storageApiVersion": "2016-01-01",
     "networkingApiVersion": "2015-06-15",
-    "vmApiVersion": "2015-06-15"
+    "vmApiVersion": "2015-06-15",
+    "mlApiVersion": "2016-04-01"
   },
 
   "resources": [
@@ -98,6 +103,31 @@
       },
       "kind": "Storage",
       "location": "[resourceGroup().location]"
+    },
+    {
+      "name": "[variables('mlStorageAccountName')]",
+      "type": "Microsoft.Storage/storageAccounts",
+      "apiVersion": "[variables('storageApiVersion')]",
+      "sku": {
+        "name": "Standard_LRS",
+        "tier": "Standard"
+      },
+      "kind": "Storage",
+      "location": "[variables('location')]"
+    },
+
+    // Azure ML
+    {
+      "apiVersion": "[variables('mlApiVersion')]",
+      "type": "Microsoft.MachineLearning/workspaces",
+      "name": "[variables('mlWorkspaceName')]",
+      "location": "[resourceGroup().location]",
+      "dependsOn": [
+          "[variables('mlStorageResourceId')]"
+      ],
+      "properties": {
+          "UserStorageAccountId": "[variables('mlStorageResourceId')]"
+      }
     },
 
     // networking
@@ -302,5 +332,7 @@
   ],
 
   "outputs": {
+    "mlWorkspaceObject": { "type": "object", "value": "[reference(variables('mlResourceId'), variables('mlApiVersion'))]" },
+    "mlWorkspaceToken" : { "type": "object", "value": "[listWorkspaceKeys(variables('mlResourceId'), variables('mlApiVersion'))]"}
   }
 }
