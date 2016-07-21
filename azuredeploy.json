@@ -71,6 +71,7 @@
     "clusterWorkerNodeCount": 2,
     "mydcsConfigurationFunction": "mydcsConfiguration.ps1\\Main",
     "dscModuleUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/master/dsc.zip",
+    "mlLocation": "southcentralus",
 
     "clusterApiVersion": "2015-03-01-preview",
     "storageApiVersion": "2016-01-01",
@@ -113,7 +114,7 @@
         "tier": "Standard"
       },
       "kind": "Storage",
-      "location": "[resourceGroup().location]"
+      "location": "[variables('mlLocation')]"
     },
 
     // Azure ML
@@ -121,7 +122,7 @@
       "apiVersion": "[variables('mlApiVersion')]",
       "type": "Microsoft.MachineLearning/workspaces",
       "name": "[variables('mlWorkspaceName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[variables('mlLocation')]",
       "dependsOn": [
           "[variables('mlStorageResourceId')]"
       ],
