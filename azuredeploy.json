@@ -113,7 +113,7 @@
         "tier": "Standard"
       },
       "kind": "Storage",
-      "location": "[variables('location')]"
+      "location": "[resourceGroup().location]"
     },
 
     // Azure ML
