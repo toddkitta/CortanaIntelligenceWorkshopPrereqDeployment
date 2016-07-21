@@ -53,7 +53,7 @@
     "nicName": "[concat(parameters('appName'), 'nic')]",
     "publicIPAddressName": "[concat(parameters('appName'), 'publicip')]",
     "labVmName": "[concat(parameters('appName'), 'lab')]",
-    "mlWorkspaceName": "[concat(variables('namePrefix'), 'ml')]",
+    "mlWorkspaceName": "[concat(variables('appName'), 'ml')]",
     "mlResourceId": "[resourceId('Microsoft.MachineLearning/workspaces', variables('mlWorkspaceName'))]",
     "mlStorageResourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('mlStorageAccountName'))]",
 
