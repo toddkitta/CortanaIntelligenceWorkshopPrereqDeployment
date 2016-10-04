@@ -108,7 +108,7 @@
         "tier": "Standard"
       },
       "kind": "Storage",
-      "location": "[resourceGroup().location]"
+      "location": "[parameters('deploymentLocation')]"
     },
     {
       "name": "[variables('vmStorageAccountName')]",
@@ -119,7 +119,7 @@
         "tier": "Standard"
       },
       "kind": "Storage",
-      "location": "[resourceGroup().location]"
+      "location": "[parameters('deploymentLocation')]"
     },
     {
       "name": "[variables('mlStorageAccountName')]",
@@ -152,7 +152,7 @@
       "apiVersion": "[variables('networkingApiVersion')]",
       "type": "Microsoft.Network/publicIPAddresses",
       "name": "[variables('publicIPAddressName')]",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('deploymentLocation')]",
       "properties": {
         "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
         "dnsSettings": {
@@ -163,7 +163,7 @@
     {
       "name": "[variables('virtualNetworkName')]",
       "type": "Microsoft.Network/virtualNetworks",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('deploymentLocation')]",
       "apiVersion": "[variables('networkingApiVersion')]",
       "properties": {
         "addressSpace": {
@@ -184,7 +184,7 @@
     {
       "name": "[variables('nicName')]",
       "type": "Microsoft.Network/networkInterfaces",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('deploymentLocation')]",
       "apiVersion": "[variables('networkingApiVersion')]",
       "dependsOn": [
         "[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
@@ -212,7 +212,7 @@
     {
       "name": "[variables('labVmName')]",
       "type": "Microsoft.Compute/virtualMachines",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('deploymentLocation')]",
       "apiVersion": "[variables('vmApiVersion')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('vmStorageAccountName'))]",
@@ -255,7 +255,7 @@
         {
           "name": "mydcs",
           "type": "extensions",
-          "location": "[resourceGroup().location]",
+          "location": "[parameters('deploymentLocation')]",
           "apiVersion": "[variables('vmApiVersion')]",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('labVmName'))]"
@@ -286,7 +286,7 @@
     {
       "name": "[variables('clusterName')]",
       "type": "Microsoft.HDInsight/clusters",
-      "location": "[resourceGroup().location]",
+      "location": "[parameters('deploymentLocation')]",
       "apiVersion": "[variables('clusterApiVersion')]",
       "dependsOn": [
         "[concat('Microsoft.Storage/storageAccounts/', variables('clusterStorageAccountName'))]"
