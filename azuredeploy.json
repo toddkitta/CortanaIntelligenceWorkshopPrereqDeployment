@@ -11,6 +11,22 @@
         "description": "This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in smithcis, your Spark cluster will be called smithcisspark and your Lab VM will be called smithcislab."
       }
     },
+    "deploymentLocation": {
+      "type": "string",
+      "allowedValues": [
+        "eastus",
+        "eastus2",
+        "centralus",
+        "northcentralus",
+        "southcentralus",
+        "westcentralus",
+        "westus",
+        "westus2"
+      ],
+      "metadata": {
+        "description": "The default deployment location for the resources needed for the workshop. Note that this does NOT have to be the same as the location chosen for the Resource Group."
+      }
+    },
 
     // HDInsight parms
     "clusterLoginUserName": {
@@ -124,10 +140,10 @@
       "name": "[variables('mlWorkspaceName')]",
       "location": "[variables('mlLocation')]",
       "dependsOn": [
-          "[variables('mlStorageResourceId')]"
+        "[variables('mlStorageResourceId')]"
       ],
       "properties": {
-          "UserStorageAccountId": "[variables('mlStorageResourceId')]"
+        "UserStorageAccountId": "[variables('mlStorageResourceId')]"
       }
     },
 
@@ -333,7 +349,13 @@
   ],
 
   "outputs": {
-    "mlWorkspaceObject": { "type": "object", "value": "[reference(variables('mlResourceId'), variables('mlApiVersion'))]" },
-    "mlWorkspaceToken" : { "type": "object", "value": "[listWorkspaceKeys(variables('mlResourceId'), variables('mlApiVersion'))]"}
+    "mlWorkspaceObject": {
+      "type": "object",
+      "value": "[reference(variables('mlResourceId'), variables('mlApiVersion'))]"
+    },
+    "mlWorkspaceToken": {
+      "type": "object",
+      "value": "[listWorkspaceKeys(variables('mlResourceId'), variables('mlApiVersion'))]"
+    }
   }
 }
