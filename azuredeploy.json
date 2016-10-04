@@ -19,9 +19,7 @@
         "centralus",
         "northcentralus",
         "southcentralus",
-        "westcentralus",
-        "westus",
-        "westus2"
+        "westus"
       ],
       "metadata": {
         "description": "The default deployment location for the resources needed for the workshop. Note that this does NOT have to be the same as the location chosen for the Resource Group."
