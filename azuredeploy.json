@@ -270,38 +270,34 @@
               ],
               "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File ImportModules.ps1"
             }
+          }
+        },
+        {
+          "name": "mydcs",
+          "type": "extensions",
+          "location": "[parameters('deploymentLocation')]",
+          "apiVersion": "[variables('vmApiVersion')]",
+          "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('labVmName'), 'MyCustomScriptExtension')]"
+          ],
+          "tags": {
+            "displayName": "mydcs"
           },
-          "resouces": [
-            {
-              {
-                "name": "mydcs",
-                "type": "extensions",
-                "location": "[parameters('deploymentLocation')]",
-                "apiVersion": "[variables('vmApiVersion')]",
-                "dependsOn": [
-                  "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('labVmName'), 'MyCustomScriptExtension')]"
-                ],
-                "tags": {
-                  "displayName": "mydcs"
-                },
-                "properties": {
-                  "publisher": "Microsoft.Powershell",
-                  "type": "DSC",
-                  "typeHandlerVersion": "2.9",
-                  "autoUpgradeMinorVersion": true,
-                  "settings": {
-                    "modulesUrl": "[variables('dscModuleUrl')]",
-                    "sasToken": "",
-                    "configurationFunction": "[variables('mydcsConfigurationFunction')]",
-                    "properties": {
-                      "nodeName": "[variables('labVmName')]"
-                    }
-                  },
-                  "protectedSettings": { }
-                }
+          "properties": {
+            "publisher": "Microsoft.Powershell",
+            "type": "DSC",
+            "typeHandlerVersion": "2.9",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "modulesUrl": "[variables('dscModuleUrl')]",
+              "sasToken": "",
+              "configurationFunction": "[variables('mydcsConfigurationFunction')]",
+              "properties": {
+                "nodeName": "[variables('labVmName')]"
               }
-            }
-          ]
+            },
+            "protectedSettings": { }
+          }
         }
       ]
     },
