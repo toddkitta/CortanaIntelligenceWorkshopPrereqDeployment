@@ -252,34 +252,12 @@
       },
       "resources": [
         {
-          "type": "extensions",
-          "name": "MyCustomScriptExtension",
-          "apiVersion": "2015-05-01-preview",
-          "location": "[parameters('deploymentLocation')]",
-          "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('labVmName'))]"
-          ],
-          "properties": {
-            "publisher": "Microsoft.Compute",
-            "type": "CustomScriptExtension",
-            "typeHandlerVersion": "1.7",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": [
-                "variables('customScriptUrl')"
-              ],
-              "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File ImportModules.ps1"
-            }
-          }
-        },
-        {
           "name": "mydcs",
           "type": "extensions",
           "location": "[parameters('deploymentLocation')]",
           "apiVersion": "[variables('vmApiVersion')]",
           "dependsOn": [
-            "[resourceId('Microsoft.Compute/virtualMachines/', variables('labVmName'))]",
-            "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('labVmName'), 'MyCustomScriptExtension')]"
+            "[resourceId('Microsoft.Compute/virtualMachines/', variables('labVmName'))]"
           ],
           "tags": {
             "displayName": "mydcs"
