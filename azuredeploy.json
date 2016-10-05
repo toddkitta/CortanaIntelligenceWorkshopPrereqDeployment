@@ -278,6 +278,7 @@
           "location": "[parameters('deploymentLocation')]",
           "apiVersion": "[variables('vmApiVersion')]",
           "dependsOn": [
+            "[resourceId('Microsoft.Compute/virtualMachines/', variables('labVmName'))]",
             "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('labVmName'), 'MyCustomScriptExtension')]"
           ],
           "tags": {
