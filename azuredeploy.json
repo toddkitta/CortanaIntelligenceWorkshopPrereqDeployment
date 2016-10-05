@@ -278,7 +278,7 @@
           "location": "[parameters('deploymentLocation')]",
           "apiVersion": "[variables('vmApiVersion')]",
           "dependsOn": [
-            "MyCustomScriptExtension"
+            "[resourceId('Microsoft.Compute/virtualMachines/extensions', variables('labVmName'), 'MyCustomScriptExtension')]"
           ],
           "tags": {
             "displayName": "mydcs"
