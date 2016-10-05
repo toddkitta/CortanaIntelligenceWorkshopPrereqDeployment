@@ -84,6 +84,7 @@
     "clusterNodeSize": "Standard_D12_v2",
     "clusterWorkerNodeCount": 2,
     "mydcsConfigurationFunction": "mydcsConfiguration.ps1\\Main",
+    "customScriptUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/master/ImportModules.ps1",
     "dscModuleUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/master/dsc.zip",
     "mlLocation": "southcentralus",
 
@@ -251,12 +252,33 @@
       },
       "resources": [
         {
+          "type": "extensions",
+          "name": "MyCustomScriptExtension",
+          "apiVersion": "2015-05-01-preview",
+          "location": "[parameters('deploymentLocation')]",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('labVmName'))]"
+          ],
+          "properties": {
+            "publisher": "Microsoft.Compute",
+            "type": "CustomScriptExtension",
+            "typeHandlerVersion": "1.7",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": [
+                "variables('customScriptUrl')"
+              ],
+              "commandToExecute": "powershell.exe -ExecutionPolicy Unrestricted -File ImportModules.ps1"
+            }
+          }
+        },
+        {
           "name": "mydcs",
           "type": "extensions",
           "location": "[parameters('deploymentLocation')]",
           "apiVersion": "[variables('vmApiVersion')]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('labVmName'))]"
+            "Microsoft.Compute/virtualMachines/extensions/MyCustomScriptExtension"
           ],
           "tags": {
             "displayName": "mydcs"
