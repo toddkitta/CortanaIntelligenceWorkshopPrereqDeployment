@@ -15,7 +15,10 @@ All you need to do is click the "Deploy to Azure" button below and fill out the 
 
 When you click the "Deploy to Azure" button, you will be taken to the Azure portal and presented with a form for a new custom deployment (which uses the ARM template in this GitHub repo). You will be presented with a blade to provide some custom parameters as shown in the screenshot below.
 
-![alt text](/images/prereqparms.PNG "Azure Deployment GUI")
+![alt text](images/prereqparms.PNG "Azure Deployment GUI")
 
-* APPNAME - This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in *smithcis*, your Spark cluster will be called *smithcisspark* and your Lab VM will be called *smithcislab*.
-* DEPLOYMENTLOCATION - The default deployment location for the resources needed for the workshop. Note that this does NOT have to be the same as the location chosen for the Resource Group.
+* **Subscription** - Select the subscription you wish to use for the workshop.
+* **Resource Group** - Create a new resource group and give it a globally unique name.
+* **Location** - This is the location of your Resource Group. Resouces that are deployed inside this Resource Group do *not* have to be deployed to this same location.
+* **App Name** - This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in *smithcis*, your Spark cluster will be called *smithcisspark* and your Lab VM will be called *smithcislab*.
+* **Deployment Location** - The default deployment location for the resources needed for the workshop. This does *not* have to be the same as the location chosen for the Resource Group.
