@@ -19,7 +19,3 @@ When you click the "Deploy to Azure" button, you will be taken to the Azure port
 
 * APPNAME - This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in *smithcis*, your Spark cluster will be called *smithcisspark* and your Lab VM will be called *smithcislab*.
 * DEPLOYMENTLOCATION - The default deployment location for the resources needed for the workshop. Note that this does NOT have to be the same as the location chosen for the Resource Group.
-* CLUSTERLOGINUSERNAME - The username that will be created for the Spark cluster.
-* CLUSTERLOGINPASSWORD - The associated password with the Spark username. The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter.
-* LABVMUSERNAME - The username that will be created for the Lab VM.
-* LABVMPASSWORD - The associated password with the Lab VM user. The password must be at least 12 characters and must have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character.

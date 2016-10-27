@@ -24,50 +24,25 @@
       "metadata": {
         "description": "The default deployment location for the resources needed for the workshop. Note that this does NOT have to be the same as the location chosen for the Resource Group."
       }
-    },
-
-    // HDInsight parms
-    "clusterLoginUserName": {
-      "type": "string",
-      "metadata": {
-        "description": "The username that will be created for the Spark cluster."
-      }
-    },
-    "clusterLoginPassword": {
-      "type": "securestring",
-      "minLength": 10,
-      "metadata": {
-        "description": "The associated password with the Spark username. The password must be at least 10 characters in length and must contain at least one digit, one non-alphanumeric character, and one upper or lower case letter."
-      }
-    },
-
-    // Lab VM parms
-    "labVmUsername": {
-      "type": "string",
-      "metadata": {
-        "description": "The username that will be created for the Lab VM."
-      }
-    },
-    "labVmPassword": {
-      "type": "securestring",
-      "minLength": 12,
-      "metadata": {
-        "description": "The associated password with the Lab VM user. The password must be at least 12 characters and must have 3 of the following: 1 lower case character, 1 upper case character, 1 number, and 1 special character."
-      }
     }
   },
 
   "variables": {
-    "clusterName": "[concat(parameters('appName'), 'spark')]",
-    "clusterStorageAccountName": "[concat(parameters('appName'), 'sparkstorage')]",
-    "vmStorageAccountName": "[concat(parameters('appName'), 'vmstorage')]",
-    "mlStorageAccountName": "[concat(parameters('appName'), 'mlstorage')]",
-    "virtualNetworkName": "[concat(parameters('appName'), 'labnetwork')]",
-    "subnetName": "[concat(parameters('appName'), 'subnet')]",
-    "nicName": "[concat(parameters('appName'), 'nic')]",
-    "publicIPAddressName": "[concat(parameters('appName'), 'publicip')]",
-    "labVmName": "[concat(parameters('appName'), 'lab')]",
-    "mlWorkspaceName": "[concat(parameters('appName'), 'ml')]",
+    "clusterLoginUserName": "cortana",
+    "clusterLoginPassword": "Password.1!!",
+    "labVmUsername": "cortana",
+    "labVmPassword": "Password.1!!",
+    "cleanAppName": "[toLower(parameters('appName'))]",
+    "clusterName": "[concat(variables('cleanAppName'), 'spark')]",
+    "clusterStorageAccountName": "[concat(variables('cleanAppName'), 'sparkstorage')]",
+    "vmStorageAccountName": "[concat(variables('cleanAppName'), 'vmstorage')]",
+    "mlStorageAccountName": "[concat(variables('cleanAppName'), 'mlstorage')]",
+    "virtualNetworkName": "[concat(variables('cleanAppName'), 'labnetwork')]",
+    "subnetName": "[concat(variables('cleanAppName'), 'subnet')]",
+    "nicName": "[concat(variables('cleanAppName'), 'nic')]",
+    "publicIPAddressName": "[concat(variables('cleanAppName'), 'publicip')]",
+    "labVmName": "[concat(variables('cleanAppName'), 'lab')]",
+    "mlWorkspaceName": "[concat(variables('cleanAppName'), 'ml')]",
     "mlResourceId": "[resourceId('Microsoft.MachineLearning/workspaces', variables('mlWorkspaceName'))]",
     "mlStorageResourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('mlStorageAccountName'))]",
 
@@ -223,8 +198,8 @@
         },
         "osProfile": {
           "computerName": "[variables('labVmName')]",
-          "adminUsername": "[parameters('labVmUsername')]",
-          "adminPassword": "[parameters('labVmPassword')]"
+          "adminUsername": "[variables('labVmUsername')]",
+          "adminPassword": "[variables('labVmPassword')]"
         },
         "storageProfile": {
           "imageReference": {
@@ -298,8 +273,8 @@
           "configurations": {
             "gateway": {
               "restAuthCredential.isEnabled": true,
-              "restAuthCredential.username": "[parameters('clusterLoginUserName')]",
-              "restAuthCredential.password": "[parameters('clusterLoginPassword')]"
+              "restAuthCredential.username": "[variables('clusterLoginUserName')]",
+              "restAuthCredential.password": "[variables('clusterLoginPassword')]"
             }
           }
         },
@@ -323,8 +298,8 @@
               },
               "osProfile": {
                 "linuxOperatingSystemProfile": {
-                  "username": "[parameters('clusterLoginUserName')]",
-                  "password": "[parameters('clusterLoginPassword')]"
+                  "username": "[variables('clusterLoginUserName')]",
+                  "password": "[variables('clusterLoginPassword')]"
                 }
               }
             },
@@ -336,8 +311,8 @@
               },
               "osProfile": {
                 "linuxOperatingSystemProfile": {
-                  "username": "[parameters('clusterLoginUserName')]",
-                  "password": "[parameters('clusterLoginPassword')]"
+                  "username": "[variables('clusterLoginUserName')]",
+                  "password": "[variables('clusterLoginPassword')]"
                 }
               }
             }
