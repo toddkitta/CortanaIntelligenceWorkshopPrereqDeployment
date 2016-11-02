@@ -1,6 +1,13 @@
 # Cortana Intelligence Workshop Prereq Deployment
 
-This GitHub repo exists to deploy the assets needed to complete the Cortana Intelligence Workshop. We are leveraging a capability of Azure called ARM templates which allow you to specifiy what your solution looks like from a deployment perspetive simply by using JSON code. This is a fairly simple use of ARM templates, but you can actually deploy very complex topologies using this technology - straight from source control. Pretty cool!!
+This GitHub repo exists to get you ready for the Cortana Intelligence End-to-End Workshop. There are two main steps:
+
+1. Deploy workshop environment to Azure
+2. Acquire a Weather Underground API Key
+
+## Deploy Workshop Environment to Azure
+
+This GitHub repo can deploy the assets to Azure needed to complete the Cortana Intelligence Workshop. We are leveraging a capability of Azure called ARM templates which allow you to specifiy what your solution looks like from a deployment perspetive simply by using JSON code. This is a fairly simple use of ARM templates, but you can actually deploy very complex topologies using this technology - straight from source control. Pretty cool!!
 
 This particular ARM template will deploy the following resources into a new Resource Group:
 
@@ -22,3 +29,20 @@ When you click the "Deploy to Azure" button, you will be taken to the Azure port
 * **Location** - This is the location of your Resource Group. Resouces that are deployed inside this Resource Group do *not* have to be deployed to this same location.
 * **App Name** - This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in *smithcis*, your Spark cluster will be called *smithcisspark* and your Lab VM will be called *smithcislab*.
 * **Deployment Location** - The default deployment location for the resources needed for the workshop. This does *not* have to be the same as the location chosen for the Resource Group.
+
+## Acquire Weather Underground API Key
+
+1. To retrieve the 10-day hourly weather forecast, you will use an API from WeatherUnderground.com. There is a free developer version that provides you access to the API you will need for this workshop.
+2. Navigate to http://www.wunderground.com/weather/api/.
+3. Click **Explore My Options**.
+3. On the next page, choose the **Anvil Plan** and **Developer** Pricing. This should be $0.
+3. Click the **Purchase Key** button.
+3. On the subsequent page, fill out the form to create a Weather Underground account.
+3. After doing this you will be returned to the API selection page you were on before. Click the **Purchase Key** button now that you have an account and are signed in.
+3. The subsequent page will have more questions about how you will use the API. Please complete this form and click the **Purchase Key** button.
+3. The following page will have your API key in the **Key ID** field.
+15.	You will need this **Key ID** during the workshop, so please put it in a location that will be accessible to you during the workshop. An easy solution is to simply email it to yourself.
+16.	To verify that your API Key is working, modify this URL to include your API Key: http://api.wunderground.com/api/&lt;YOURAPIKEY&gt;/forecast10day/q/CA/SEA.json.
+17.	Open your modified link in a browser, you should get a JSON result showing the 10-day, hourly weather forecast for the Seattle-Tacoma International Airport.
+
+Thank you for following this setup instruction for the Cortana Intelligence Workshop. We are looking forward to having you at our workshop!!
