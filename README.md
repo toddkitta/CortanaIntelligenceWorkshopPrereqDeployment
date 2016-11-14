@@ -42,7 +42,7 @@ When you click the "Deploy to Azure" button, you will be taken to the Azure port
 3. The subsequent page will have more questions about how you will use the API. Please complete this form and click the **Purchase Key** button.
 3. The following page will have your API key in the **Key ID** field.
 15.	You will need this **Key ID** during the workshop, so please put it in a location that will be accessible to you during the workshop. An easy solution is to simply email it to yourself.
-16.	To verify that your API Key is working, modify this URL to include your API Key: http://api.wunderground.com/api/ &lt;YOURAPIKEY&gt; /forecast10day/q/CA/SEA.json.
+16.	To verify that your API Key is working, modify this URL to include your API Key: http://api.wunderground.com/api/YOUR_API_KEY_HERE/forecast10day/q/CA/SEA.json.
 17.	Open your modified link in a browser, you should get a JSON result showing the 10-day, hourly weather forecast for the Seattle-Tacoma International Airport.
 
 Thank you for following this setup instruction for the Cortana Intelligence Workshop. We are looking forward to having you at our workshop!!
