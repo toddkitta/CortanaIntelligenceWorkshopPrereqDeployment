@@ -114,7 +114,7 @@
       "name": "[variables('mlWorkspaceName')]",
       "location": "[variables('mlLocation')]",
       "dependsOn": [
-        "[concat('Microsoft.Storage/storageAccounts/', variables('mlStorageAccountName'))]"
+        "[variables('mlStorageResourceId')]"
       ],
       "properties": {
         "UserStorageAccountId": "[variables('mlStorageResourceId')]"
