@@ -28,6 +28,7 @@ When you click the "Deploy to Azure" button, you will be taken to the Azure port
 * **Resource Group** - Create a new resource group and give it a globally unique name.
 * **Location** - This is the location of your Resource Group. Resouces that are deployed inside this Resource Group do *not* have to be deployed to this same location.
 * **App Name** - This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in *smithcis*, your Spark cluster will be called *smithcisspark* and your Lab VM will be called *smithcislab*.
+    * **NOTE: Do not include any extraneous characters aside from letters (e.g. dashes, underscores, etc.).**
 * **Deployment Location** - The default deployment location for the resources needed for the workshop. This does *not* have to be the same as the location chosen for the Resource Group.
 
 ## Acquire Weather Underground API Key

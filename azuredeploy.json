@@ -8,7 +8,7 @@
       "minLength": 3,
       "maxLength": 10,
       "metadata": {
-        "description": "This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in smithcis, your Spark cluster will be called smithcisspark and your Lab VM will be called smithcislab."
+        "description": "This should be a short (10 or fewer characters), but unique string that will be a prefix to all of the resources deployed. For example, if you type in smithcis, your Spark cluster will be called smithcisspark and your Lab VM will be called smithcislab. DO NOT INCLUDE ANY EXTRANEOUS CHARACTERS SUCH AS DASHES, UNDERSCORES, ETC."
       }
     },
     "deploymentLocation": {
@@ -32,7 +32,7 @@
     "clusterLoginPassword": "Password.1!!",
     "labVmUsername": "cortana",
     "labVmPassword": "Password.1!!",
-    "cleanAppName": "[toLower(parameters('appName'))]",
+    "cleanAppName": "[replace(replace(replace(toLower(parameters('appName')), '-', ''), '_', ''), '.', '')]",
     "clusterName": "[concat(variables('cleanAppName'), 'spark')]",
     "clusterStorageAccountName": "[concat(variables('cleanAppName'), 'sparkstorage')]",
     "vmStorageAccountName": "[concat(variables('cleanAppName'), 'vmstorage')]",
@@ -114,7 +114,7 @@
       "name": "[variables('mlWorkspaceName')]",
       "location": "[variables('mlLocation')]",
       "dependsOn": [
-        "[variables('mlStorageResourceId')]"
+        "[concat('Microsoft.Storage/storageAccounts/', variables('mlStorageAccountName'))]"
       ],
       "properties": {
         "UserStorageAccountId": "[variables('mlStorageResourceId')]"
