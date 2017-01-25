@@ -5,6 +5,13 @@ This GitHub repo exists to get you ready for the Cortana Intelligence End-to-End
 1. Deploy workshop environment to Azure
 2. Acquire a Weather Underground API Key
 
+## Workshop Requirements
+
+- Microsoft Azure Subscription should be pay-as-you-go, MSDN, or EA.
+   - If you are using your company's Azure subscription and your company requries that you be connected to your corporate network (through a VPN or otherwise), we recommend that you use a Trial or MSDN subscription for this workshop. This is due to the fact that you will be connecting to your subscription inside of a VM that is not connected to your corporate network.
+   - Recommendation is to have each user have their own Azure subscription. This will allow every attendee to have their own sandbox.
+- Please keep in mind that HDInsight cluster and VM you provision as setup for this workshop will incur charges, so provision these resources closest to the workshop date as possible.  Preferably the afternoon/night before the workshop.
+
 ## Deploy Workshop Environment to Azure
 
 This GitHub repo can deploy the assets to Azure needed to complete the Cortana Intelligence Workshop. We are leveraging a capability of Azure called ARM templates which allow you to specifiy what your solution looks like from a deployment perspetive simply by using JSON code. This is a fairly simple use of ARM templates, but you can actually deploy very complex topologies using this technology - straight from source control. Pretty cool!!
