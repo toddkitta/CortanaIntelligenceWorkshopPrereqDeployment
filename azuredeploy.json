@@ -1,7 +1,6 @@
 ﻿{
   "$schema": "https://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
-
   "parameters": {
     "appName": {
       "type": "string",
@@ -26,7 +25,6 @@
       }
     }
   },
-
   "variables": {
     "clusterLoginUserName": "cortana",
     "clusterLoginPassword": "Password.1!!",
@@ -45,10 +43,9 @@
     "mlWorkspaceName": "[concat(variables('cleanAppName'), 'ml')]",
     "mlResourceId": "[resourceId('Microsoft.MachineLearning/workspaces', variables('mlWorkspaceName'))]",
     "mlStorageResourceId": "[resourceId('Microsoft.Storage/storageAccounts', variables('mlStorageAccountName'))]",
-
     "OSDiskName": "labvmosdisk",
     "vmOsVersion": "2012-R2-Datacenter",
-    "vmSize": "Standard_DS1_v2",
+    "vmSize": "2016-Datacenter",
     "addressPrefix": "10.0.0.0/16",
     "subnetPrefix": "10.0.0.0/24",
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
@@ -62,16 +59,13 @@
     "customScriptUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/labvmupdate/ImportModules.ps1",
     "dscModuleUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/labvmupdate/dsc.zip",
     "mlLocation": "southcentralus",
-
     "clusterApiVersion": "2015-03-01-preview",
     "storageApiVersion": "2016-01-01",
     "networkingApiVersion": "2015-06-15",
     "vmApiVersion": "2015-06-15",
     "mlApiVersion": "2016-04-01"
   },
-
   "resources": [
-
     // storage
     {
       "name": "[variables('clusterStorageAccountName')]",
@@ -106,7 +100,6 @@
       "kind": "Storage",
       "location": "[variables('mlLocation')]"
     },
-
     // Azure ML
     {
       "apiVersion": "[variables('mlApiVersion')]",
@@ -120,7 +113,6 @@
         "UserStorageAccountId": "[variables('mlStorageResourceId')]"
       }
     },
-
     // networking
     {
       "apiVersion": "[variables('networkingApiVersion')]",
@@ -181,7 +173,6 @@
         ]
       }
     },
-
     // Lab VM
     {
       "name": "[variables('labVmName')]",
@@ -199,7 +190,10 @@
         "osProfile": {
           "computerName": "[variables('labVmName')]",
           "adminUsername": "[variables('labVmUsername')]",
-          "adminPassword": "[variables('labVmPassword')]"
+          "adminPassword": "[variables('labVmPassword')]",
+          "windowsConfiguration": {
+            "provisionVmAgent": "true"
+          }
         },
         "storageProfile": {
           "imageReference": {
@@ -252,12 +246,11 @@
                 "PBIDProductId": "7C02EE18-28B9-47A4-886A-6B71A6398E18"
               }
             },
-            "protectedSettings": { }
+            "protectedSettings": {}
           }
         }
       ]
     },
-
     // HDInsight
     {
       "name": "[variables('clusterName')]",
@@ -323,7 +316,6 @@
       }
     }
   ],
-
   "outputs": {
     "mlWorkspaceObject": {
       "type": "object",
