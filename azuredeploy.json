@@ -59,8 +59,8 @@
     "clusterNodeSize": "Standard_D12_v2",
     "clusterWorkerNodeCount": 2,
     "mydcsConfigurationFunction": "mydcsConfiguration.ps1\\Main",
-    "customScriptUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/master/ImportModules.ps1",
-    "dscModuleUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/master/dsc.zip",
+    "customScriptUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/labvmupdate/ImportModules.ps1",
+    "dscModuleUrl": "https://raw.github.com/toddkitta/CortanaIntelligenceWorkshopPrereqDeployment/labvmupdate/dsc.zip",
     "mlLocation": "southcentralus",
 
     "clusterApiVersion": "2015-03-01-preview",
