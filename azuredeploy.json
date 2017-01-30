@@ -247,7 +247,9 @@
               "sasToken": "",
               "configurationFunction": "[variables('mydcsConfigurationFunction')]",
               "properties": {
-                "nodeName": "[variables('labVmName')]"
+                "nodeName": "[variables('labVmName')]",
+                "PBIDLink": "http://go.microsoft.com/fwlink/?LinkID=521662",
+                "PBIDProductId": "7C02EE18-28B9-47A4-886A-6B71A6398E18"
               }
             },
             "protectedSettings": { }
