@@ -260,10 +260,13 @@
         "[concat('Microsoft.Storage/storageAccounts/', variables('clusterStorageAccountName'))]"
       ],
       "properties": {
-        "clusterVersion": "3.4",
+        "clusterVersion": "3.5",
         "osType": "Linux",
         "clusterDefinition": {
           "kind": "spark",
+          "componentVersion": {
+            "Spark": "2.0"
+          },
           "configurations": {
             "gateway": {
               "restAuthCredential.isEnabled": true,
