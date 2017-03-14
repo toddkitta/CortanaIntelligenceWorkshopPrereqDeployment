@@ -242,7 +242,7 @@
               "properties": {
                 "nodeName": "[variables('labVmName')]",
                 "PBIDLink": "http://go.microsoft.com/fwlink/?LinkID=521662",
-                "PBIDProductId": "D3266B2D-D507-49A3-B736-2EDBFF1B6EAD"
+                "PBIDProductId": "FE977F6F-CA77-46C8-9CE1-19622AEB2BF0"
               }
             },
             "protectedSettings": {}
